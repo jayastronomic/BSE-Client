@@ -1,0 +1,8 @@
+Model Information:
+* title:	Popsicle Sticks
+* source:	https://sketchfab.com/3d-models/popsicle-sticks-5e23c107157f403182f9ca930d32ed75
+* author:	plaggy (https://sketchfab.com/plaggy)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
