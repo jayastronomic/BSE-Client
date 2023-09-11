@@ -1,7 +1,6 @@
 import { MouseEvent } from "react";
 import * as FaIcon from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { useNavigationState } from "../AppWrapper";
 import NavigationLinks from "./NavigationLinks";
 
