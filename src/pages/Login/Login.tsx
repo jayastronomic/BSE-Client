@@ -1,22 +1,30 @@
-import React, { useState, ChangeEvent, FormEvent, useContext } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+} from "react";
 import { AuthContext } from "../../App";
-import AuthUser from "../../interfaces/AuthUser";
-import AuthEndPoint from "../../network/endpoints/AuthEndpoint";
-import { useNavigate } from "react-router-dom";
+type NewUser = {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+};
 
-const SignUp = () => {
-  const { setToken } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const [newUser, setNewUser] = useState<AuthUser>({
+const Login = () => {
+  const { authUser } = useContext(AuthContext);
+
+  const [user, setUser] = useState<NewUser>({
     email: "",
     password: "",
     passwordConfirmation: "",
   });
-  const { email, password, passwordConfirmation } = newUser;
+  const { email, password } = user;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewUser((prev) => ({
+    setUser((prev: NewUser) => ({
       ...prev,
       [name]: value,
     }));
@@ -24,15 +32,13 @@ const SignUp = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    AuthEndPoint.create(newUser).then((res) => {
-      const { message, data: token } = res;
-      if (message === "success") {
-        localStorage.setItem("token", token as string);
-        setToken(token as string);
-        navigate("/");
-      }
-    });
+    // const response =  await AuthEndpoint.register({email, password})
+    //  console.log(response)
   };
+
+  useEffect(() => {
+    console.log(authUser);
+  }, []);
 
   return (
     <div
@@ -63,22 +69,12 @@ const SignUp = () => {
             onChange={handleChange}
           />
         </div>
-        <div className={"flex flex-col"}>
-          <label>Password Confirmation</label>
-          <input
-            className={""}
-            type={"password"}
-            name={"passwordConfirmation"}
-            value={passwordConfirmation}
-            onChange={handleChange}
-          />
-        </div>
         <div className={"flex"}>
           <button
             type={"submit"}
             className={"bg-amber-950 text-white w-full rounded"}
           >
-            Create Account
+            Log in
           </button>
         </div>
       </form>
@@ -86,4 +82,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
