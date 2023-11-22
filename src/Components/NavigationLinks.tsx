@@ -30,9 +30,10 @@ const variants2 = {
 };
 
 const NavigationLinks = () => {
+  const navigate = useNavigate();
   const { toggleOpen } = useNavigationState();
-  const navigate = (e: MouseEvent<HTMLButtonElement>) => {
-    const target = e.target as HTMLButtonElement;
+  const goTo = (path: string) => {
+    navigate(path);
     toggleOpen();
   };
 
@@ -41,10 +42,16 @@ const NavigationLinks = () => {
       <motion.div variants={variants} className="flex flex-col space-y-8">
         <motion.div className="flex flex-col" variants={variants2}>
           <motion.h5 className="text-3xl font-bold">Services</motion.h5>
-          <button name="services" className="self-start" onClick={navigate}>
+          <Link
+            to="/services"
+            className="self-start"
+            onClick={() => goTo("/services")}
+          >
             Service List
-          </button>
-          <Link to="/book">Book Appointment</Link>
+          </Link>
+          <Link to="/book" onClick={() => goTo("/book")}>
+            Book Appointment
+          </Link>
         </motion.div>
 
         <motion.div className="flex flex-col" variants={variants2}>

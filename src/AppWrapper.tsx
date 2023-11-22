@@ -25,7 +25,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
   };
 
   return (
-    <div className="relative flex flex-col h-full overflow-hidden">
+    <div className="relative flex flex-col h-full overflow-x-hidden w-screen">
       <NavigationState.Provider value={props}>
         {children}
       </NavigationState.Provider>

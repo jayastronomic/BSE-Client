@@ -2,16 +2,33 @@ import { Link } from "react-router-dom";
 import * as FaIcon from "react-icons/fa";
 import { useNavigationState } from "../AppWrapper";
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const paths: string[] = ["/signup", "/login"];
 
 const Nav = () => {
   const { toggleOpen } = useNavigationState();
   const location = useLocation();
+  const [isSticky, setIsSticky] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      setIsSticky(offset > 50); // Adjust the offset as needed
+    };
+
+    // Attach the event listener when the component mounts
+    window.addEventListener("scroll", handleScroll);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <nav
-      className={`flex items-center justify-between w-full py-4 px-4 ${
+      className={`z-10 top-0 flex items-center justify-between w-full py-4 px-4 ${
         paths.includes(location.pathname) ? "bg-[#f1efe7]" : ""
       }`}
     >

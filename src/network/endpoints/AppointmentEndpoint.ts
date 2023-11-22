@@ -1,19 +1,14 @@
-import AuthUser from "../../interfaces/AuthUser";
 import HttpClient from "../../services/HttpClient";
-export default class AuthEndPoint {
+import Appointment from "../../interfaces/Appointment";
+export default class AppointmentEndpoint {
   private static readonly http: HttpClient = new HttpClient(
     "http://localhost:4000"
   );
 
-  public static create(payload: AuthUser) {
-    return AuthEndPoint.http.post("/api/v1/auth/signup", payload, {
+  public static create(payload: Appointment) {
+    return AppointmentEndpoint.http.post("/api/v1/appointments", payload, {
       "Content-Type": "application/json",
       Accept: "application/json",
-    });
-  }
-
-  public static loggedIn() {
-    return AuthEndPoint.http.get("/api/v1/auth/loggedIn", {
       Authorization: `Bearer: ${localStorage.getItem("token")}`,
     });
   }

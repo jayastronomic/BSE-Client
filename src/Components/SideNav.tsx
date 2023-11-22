@@ -30,10 +30,12 @@ const SideNav = () => {
     <motion.nav
       animate={isOpen ? "open" : "closed"}
       variants={variants}
-      className={"absolute w-full h-full bg-white left-full"}
+      className={"fixed z-20 w-full h-full bg-white left-full"}
     >
       <motion.div className="flex items-center justify-between w-full py-4 px-4">
-        <p className="spartan">brownSugar</p>
+        <Link onClick={() => goTo("/")} to="/" className="spartan">
+          brownSugar
+        </Link>
         <div className="flex items-center space-x-6">
           {!authUser ? (
             <div className="space-x-2">

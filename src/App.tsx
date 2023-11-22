@@ -37,6 +37,8 @@ function App(): JSX.Element {
     token,
   };
 
+  console.log(authUser);
+
   useEffect(() => {
     AuthEndPoint.loggedIn().then((response) => {
       const { message, data: user } = response;

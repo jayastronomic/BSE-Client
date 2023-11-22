@@ -10,6 +10,9 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home/Home";
 import SignUp from "./pages/SignUp/SignUp";
 import Login from "./pages/Login/Login";
+import Services from "./pages/Services/Services";
+import Book from "./pages/Book/Book";
+import Schedule from "./pages/Schedule/Schedule";
 
 const Root = () => {
   return (
@@ -35,6 +38,9 @@ export const router = CBR(
       <Route path={"/"} element={<App />}>
         <Route path={"/signup"} element={<SignUp />} />
         <Route path={"/login"} element={<Login />} />
+        <Route path={"/services"} element={<Services />} />
+        <Route path={"/book"} element={<Book />} />
+        <Route path={"/book/:id"} element={<Schedule />} />
       </Route>
     </Route>
   )
