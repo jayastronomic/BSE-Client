@@ -17,4 +17,11 @@ export default class AuthEndPoint {
       Authorization: `Bearer: ${localStorage.getItem("token")}`,
     });
   }
+
+  public static emailAlreadyExists(email: { email: string }) {
+    return AuthEndPoint.http.post("/api/v1/auth/emailTaken", email, {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
+  }
 }

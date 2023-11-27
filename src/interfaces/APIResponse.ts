@@ -1,4 +1,6 @@
 export default interface APIResponse<T> {
   data: T;
-  message: string;
+  status: "error" | "success";
+  isError: boolean;
+  errors: string[];
 }

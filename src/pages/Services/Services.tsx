@@ -10,8 +10,8 @@ const Services = (): JSX.Element => {
 
   useEffect(() => {
     ServiceEndpoint.index().then((response) => {
-      const { data: services, message } = response;
-      if (message === "success") {
+      const { data: services, status } = response;
+      if (status === "success") {
         setServices(services as Service[]);
       }
     });

@@ -41,8 +41,8 @@ function App(): JSX.Element {
 
   useEffect(() => {
     AuthEndPoint.loggedIn().then((response) => {
-      const { message, data: user } = response;
-      if (message === "success") {
+      const { status, data: user } = response;
+      if (status === "success") {
         setAuthUser(user as AuthUser);
       } else {
         setAuthUser(null);

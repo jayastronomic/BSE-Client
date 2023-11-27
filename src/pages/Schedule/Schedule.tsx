@@ -21,8 +21,8 @@ const Schedule = () => {
 
   useEffect(() => {
     ServiceEndpoint.show(id!).then((response) => {
-      const { data, message } = response;
-      if (message === "success") setService(data as Service);
+      const { data, status } = response;
+      if (status === "success") setService(data as Service);
     });
   }, [id]);
 

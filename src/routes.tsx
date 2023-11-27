@@ -13,6 +13,8 @@ import Login from "./pages/Login/Login";
 import Services from "./pages/Services/Services";
 import Book from "./pages/Book/Book";
 import Schedule from "./pages/Schedule/Schedule";
+import { useContext } from "react";
+import { AuthContext } from "./App";
 
 const Root = () => {
   return (

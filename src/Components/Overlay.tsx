@@ -1,6 +1,11 @@
+import AuthUser from "../interfaces/AuthUser";
 import Nav from "./Nav";
 
-const Overlay = () => {
+type OverlayProps = {
+  authUser: AuthUser;
+};
+
+const Overlay = ({ authUser }: OverlayProps) => {
   return (
     <div className="absolute inset-0 flex flex-col h-full items-center justify-center">
       <Nav />

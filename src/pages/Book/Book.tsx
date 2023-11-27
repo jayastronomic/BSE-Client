@@ -15,8 +15,8 @@ const Book = () => {
       navigate("/login");
     } else {
       ServiceEndpoint.index().then((response) => {
-        const { data, message } = response;
-        if (message === "success") setServices(data as Service[]);
+        const { data, status } = response;
+        if (status === "success") setServices(data as Service[]);
       });
     }
   }, [authUser, navigate]);
