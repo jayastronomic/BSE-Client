@@ -9,10 +9,10 @@ type RequestOptions = {
 export default class HttpClient {
   constructor(private host: string) {}
 
-  async get(path: string, headers?: { [header: string]: string }) {
+  async get<T>(path: string, headers?: { [header: string]: string }) {
     let options: RequestOptions = {};
     options.headers = headers;
-    return await request(this.host + path, options);
+    return await request<T>(this.host + path, options);
   }
 
   async post<T>(
@@ -24,7 +24,7 @@ export default class HttpClient {
     options.method = Method.POST;
     options.body = JSON.stringify(payload);
     options.headers = headers;
-    return await request(this.host + path, options);
+    return await request<T>(this.host + path, options);
   }
 
   async put<T>(
@@ -36,7 +36,7 @@ export default class HttpClient {
     options.method = Method.POST;
     options.body = JSON.stringify(payload);
     options.headers = headers;
-    return await request(this.host + path, options);
+    return await request<T>(this.host + path, options);
   }
 
   delete() {}

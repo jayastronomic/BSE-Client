@@ -1,5 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import Profile from "../../interfaces/Profile";
+import { motion } from "framer-motion";
 
 type ProfileDetailsProps = {
   firstName: string;
@@ -27,7 +28,12 @@ const ProfileDetails = ({
   };
 
   return (
-    <div className="flex flex-col space-y-8">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ ease: "circOut" }}
+      className="flex flex-col space-y-8"
+    >
       <div className={"flex flex-col space-y-2"}>
         <label className="text-sm text-gray-600">FIRST NAME*</label>
         <input
@@ -83,7 +89,7 @@ const ProfileDetails = ({
           onChange={handleChange}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default ProfileDetails;

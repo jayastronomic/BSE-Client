@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Service from "../../interfaces/Service";
 import ServicesContainer from "../../containers/ServicesContainer";
 import ServiceEndpoint from "../../network/endpoints/ServiceEndpoint";

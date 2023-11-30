@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import { useState, Suspense } from "react";
 import Sticks from "../../components/Sticks";
 
 const Home = () => {

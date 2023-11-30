@@ -6,6 +6,7 @@ import {
   useEffect,
 } from "react";
 import AuthUser from "../../interfaces/AuthUser";
+import { motion } from "framer-motion";
 type UserDetailsProps = {
   email?: string;
   password?: string;
@@ -48,7 +49,12 @@ const UserDetails = ({
   };
 
   return (
-    <div className="flex flex-col space-y-8">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ ease: "circOut" }}
+      className="flex flex-col space-y-8"
+    >
       <div className={"flex flex-col space-y-2"}>
         {emailError.isError && (
           <div className="text-xs text-red-600">{emailError.errorMessage}</div>
@@ -91,7 +97,7 @@ const UserDetails = ({
           onChange={handleChange}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

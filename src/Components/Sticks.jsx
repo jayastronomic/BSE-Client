@@ -11,7 +11,7 @@ import * as THREE from "three";
 import { useRef, useState } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 // https://github.com/pmndrs/drei
-import { useGLTF, Detailed, Environment } from "@react-three/drei";
+import { useGLTF, Environment } from "@react-three/drei";
 // https://github.com/pmndrs/react-postprocessing
 // https://github.com/vanruesc/postprocessing
 import { EffectComposer, DepthOfField } from "@react-three/postprocessing";

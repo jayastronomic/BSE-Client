@@ -18,6 +18,12 @@ type AuthContextProps = {
   setToken: Dispatch<SetStateAction<string | null>>;
   token: string | null;
 };
+
+type AlertBoxContextProps = {
+  setLoginAlert: Dispatch<SetStateAction<boolean>>;
+  loginAlert: boolean;
+};
+
 export const AuthContext = createContext<AuthContextProps>({
   authUser: null,
   setAuthUser: () => {},
@@ -25,11 +31,17 @@ export const AuthContext = createContext<AuthContextProps>({
   token: null,
 });
 
+export const AlertBoxContext = createContext<AlertBoxContextProps>({
+  setLoginAlert: () => {},
+  loginAlert: false,
+});
+
 function App(): JSX.Element {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+  const [loginAlert, setLoginAlert] = useState<boolean>(false);
   const authContextProps = {
     authUser,
     setAuthUser,
@@ -37,22 +49,26 @@ function App(): JSX.Element {
     token,
   };
 
-  console.log(authUser);
+  const alertBoxContextProps = {
+    loginAlert,
+    setLoginAlert,
+  };
 
-  useEffect(() => {
-    AuthEndPoint.loggedIn().then((response) => {
-      const { status, data: user } = response;
-      if (status === "success") {
-        setAuthUser(user as AuthUser);
-      } else {
-        setAuthUser(null);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     AuthEndPoint.loggedIn().then(({ data }) => {
+  //       setAuthUser(data as AuthUser);
+  //     });
+  //   } catch (e) {
+  //     console.log(here);
+  //   }
+  // }, []);
 
   return (
     <AuthContext.Provider value={authContextProps}>
-      <RouterProvider router={router} />
+      <AlertBoxContext.Provider value={alertBoxContextProps}>
+        <RouterProvider router={router} />
+      </AlertBoxContext.Provider>
     </AuthContext.Provider>
   );
 }

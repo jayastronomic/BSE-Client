@@ -13,8 +13,8 @@ import Login from "./pages/Login/Login";
 import Services from "./pages/Services/Services";
 import Book from "./pages/Book/Book";
 import Schedule from "./pages/Schedule/Schedule";
-import { useContext } from "react";
-import { AuthContext } from "./App";
+import Profile from "./pages/Profile/Profile";
+import Checkout from "./pages/Checkout/Checkout";
 
 const Root = () => {
   return (
@@ -43,6 +43,8 @@ export const router = CBR(
         <Route path={"/services"} element={<Services />} />
         <Route path={"/book"} element={<Book />} />
         <Route path={"/book/:id"} element={<Schedule />} />
+        <Route path={"/profile/:id"} element={<Profile />} />
+        <Route path={"/test"} element={<Checkout />} />
       </Route>
     </Route>
   )

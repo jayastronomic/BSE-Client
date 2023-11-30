@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ServiceEndpoint from "../../network/endpoints/ServiceEndpoint";
 import { useParams } from "react-router-dom";
 import Service from "../../interfaces/Service";

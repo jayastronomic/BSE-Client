@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { DateTime } from "../pages/Schedule/Schedule";
 import AppointmentEndpoint from "../network/endpoints/AppointmentEndpoint";
 import Appointment from "../interfaces/Appointment";
