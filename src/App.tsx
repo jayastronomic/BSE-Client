@@ -11,6 +11,7 @@ import { router } from "./routes";
 import AuthUser from "./interfaces/AuthUser";
 
 import AuthEndPoint from "./network/endpoints/AuthEndpoint";
+import useFetch from "./hooks/useFetch";
 
 type AuthContextProps = {
   authUser: AuthUser | null;
@@ -37,11 +38,16 @@ export const AlertBoxContext = createContext<AlertBoxContextProps>({
 });
 
 function App(): JSX.Element {
-  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+
+  const { data: authUser, setData: setAuthUser } = useFetch({
+    queryFn: AuthEndPoint.loggedIn,
+  });
+
   const [loginAlert, setLoginAlert] = useState<boolean>(false);
+
   const authContextProps = {
     authUser,
     setAuthUser,
@@ -53,16 +59,6 @@ function App(): JSX.Element {
     loginAlert,
     setLoginAlert,
   };
-
-  // useEffect(() => {
-  //   try {
-  //     AuthEndPoint.loggedIn().then(({ data }) => {
-  //       setAuthUser(data as AuthUser);
-  //     });
-  //   } catch (e) {
-  //     console.log(here);
-  //   }
-  // }, []);
 
   return (
     <AuthContext.Provider value={authContextProps}>

@@ -1,13 +1,13 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import Profile from "../../interfaces/Profile";
 import { motion } from "framer-motion";
+import AuthUser from "../../interfaces/AuthUser";
 
 type ProfileDetailsProps = {
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  phoneNumber: string;
-  setProfile: Dispatch<SetStateAction<Profile>>;
+  firstName?: string;
+  lastName?: string;
+  birthDate?: string;
+  phoneNumber?: string;
+  setNewUser: Dispatch<SetStateAction<AuthUser>>;
 };
 
 const ProfileDetails = ({
@@ -15,14 +15,17 @@ const ProfileDetails = ({
   lastName,
   birthDate,
   phoneNumber,
-  setProfile,
+  setNewUser,
 }: ProfileDetailsProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProfile((prev) => {
+    setNewUser((prev) => {
       return {
         ...prev,
-        [name]: value,
+        profile: {
+          ...prev.profile!,
+          [name]: value,
+        },
       };
     });
   };

@@ -3,4 +3,5 @@ export default interface APIResponse<T> {
   status: "error" | "success";
   isError: boolean;
   errors: string[];
+  token?: string;
 }

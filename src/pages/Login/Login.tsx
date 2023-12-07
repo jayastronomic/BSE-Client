@@ -1,29 +1,26 @@
 import { useState, ChangeEvent, FormEvent, useContext, useEffect } from "react";
 import { AlertBoxContext, AuthContext } from "../../App";
 import AlertBox from "../../components/AlertBox";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-type NewUser = {
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-};
+import AuthUser from "../../interfaces/AuthUser";
+import AuthEndPoint from "../../network/endpoints/AuthEndpoint";
+import { useNavigationState } from "../../AppWrapper";
 
 const Login = () => {
-  const { authUser } = useContext(AuthContext);
   const { loginAlert, setLoginAlert } = useContext(AlertBoxContext);
-  const location = useLocation();
-
-  const [user, setUser] = useState<NewUser>({
+  const navigate = useNavigate();
+  const { toggleOpen } = useNavigationState();
+  const { setAuthUser } = useContext(AuthContext);
+  const [user, setUser] = useState<AuthUser>({
     email: "",
     password: "",
-    passwordConfirmation: "",
   });
   const { email, password } = user;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUser((prev: NewUser) => ({
+    setUser((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -31,13 +28,16 @@ const Login = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const response =  await AuthEndpoint.register({email, password})
-    //  console.log(response)
+    AuthEndPoint.login(user).then((response) => {
+      const { data, status, token } = response;
+      if (status === "success" && token && data) {
+        localStorage.setItem("token", token);
+        setAuthUser(data);
+        toggleOpen();
+        navigate("/");
+      }
+    });
   };
-
-  // useEffect(() => {
-  //   console.log(authUser);
-  // }, []);
 
   useEffect(() => {
     return () => {

@@ -21,7 +21,7 @@ const Book = () => {
     }
   }, [authUser, navigate]);
   return (
-    <div className="flex flex-col items-center h-full">
+    <div className="flex flex-col items-center h-full bg-white">
       <div className="font-semibold my-10">Select Appointment</div>
       <ServicesContainer services={services} />
     </div>

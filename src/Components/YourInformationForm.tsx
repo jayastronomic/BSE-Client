@@ -1,105 +1,42 @@
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
 import { DateTime } from "../pages/Schedule/Schedule";
 import AppointmentEndpoint from "../network/endpoints/AppointmentEndpoint";
 import Appointment from "../interfaces/Appointment";
 import { format } from "date-fns";
+import CardPayout from "./CardPayout";
+import { AuthContext } from "../App";
 
 type YourInformationFormProps = {
-  dateTime: DateTime;
-  serviceId: string | undefined;
+  appointment: Appointment;
 };
 
-const YourInformationForm = ({
-  dateTime,
-  serviceId,
-}: YourInformationFormProps) => {
-  //   const [info, setInfo] = useState({
-  //     firstName: "",
-  //     lastName: "",
-  //     phoneNumber: "+1",
-  //     email: "",
-  //   });
-
-  //   const { firstName, lastName, phoneNumber, email } = info;
-
-  //   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //     const { name, value } = e.target;
-  //     setInfo((prev) => {
-  //       return {
-  //         ...prev,
-  //         [name]: value,
-  //       };
-  //     });
-  //   };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const payload: Appointment = {
-      time: dateTime.time,
-      date: format(dateTime.date!, "yyyy-MM-dd"),
-      serviceIds: [serviceId!],
-    };
-
-    AppointmentEndpoint.create(payload).then((response) =>
-      console.log(response)
-    );
-  };
+const YourInformationForm = ({ appointment }: YourInformationFormProps) => {
+  const { authUser } = useContext(AuthContext);
+  const { profile, email } = authUser || {};
+  const { firstName, lastName, phoneNumber } = profile || {};
 
   return (
     <div className="flex flex-col w-full">
-      <div className="mt-4 text-xs font-bold">Your Information</div>
-      <form onSubmit={handleSubmit} className="flex flex-col w-full mt-4">
-        {/* <div className="space-y-4">
-          <div className="flex flex-col">
-            <label className="text-gray-700">FIRST NAME</label>
-            <input
-              onChange={handleChange}
-              className="bg-transparent border-b border-gray-500 text-sm focus:outline-none focus:border-black"
-              placeholder="First Name ..."
-              value={firstName}
-              name="firstName"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">LAST NAME</label>
-            <input
-              onChange={handleChange}
-              className="bg-transparent border-b border-gray-500 text-sm focus:outline-none focus:border-black"
-              placeholder="Last Name ..."
-              value={lastName}
-              name="lastName"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">PHONE</label>
-            <input
-              onChange={handleChange}
-              className="bg-transparent border-b border-gray-500 text-sm focus:outline-none focus:border-black"
-              placeholder=""
-              type="text"
-              value={phoneNumber}
-              name="phoneNumber"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-gray-700">Email</label>
-            <input
-              onChange={handleChange}
-              className="bg-transparent border-b border-gray-500 text-sm focus:outline-none focus:border-black"
-              placeholder="Email ..."
-              value={email}
-              name="email"
-              type="email"
-            />
-          </div>
-        </div> */}
-        <button
-          type="submit"
-          className="bg-black text-white font-bold text-xs py-8 mt-8"
-        >
-          COMPLETE APPOINTMENT
-        </button>
-      </form>
+      <div className="mt-4 text-sm font-semibold mb-4">Your Information</div>
+      <div className="flex flex-col w-full space-y-2 border p-4 rounded shadow mb-4">
+        <div className="flex flex-col">
+          <div className="text-sm text-gray-500">First Name</div>
+          <div>{firstName}</div>
+        </div>
+        <div className="flex flex-col">
+          <div className="text-sm text-gray-500">Last Name</div>
+          <div>{lastName}</div>
+        </div>
+        <div className="flex flex-col">
+          <div className="text-sm text-gray-500">Email</div>
+          <div>{email}</div>
+        </div>
+        <div className="flex flex-col">
+          <div className="text-sm text-gray-500">Phone Number</div>
+          <div>{phoneNumber}</div>
+        </div>
+      </div>
+      <CardPayout appointment={appointment} />
     </div>
   );
 };

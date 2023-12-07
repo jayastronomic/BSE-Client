@@ -39,5 +39,10 @@ export default class HttpClient {
     return await request<T>(this.host + path, options);
   }
 
-  delete() {}
+  async delete<T>(path: string, headers?: { [header: string]: string }) {
+    let options: RequestOptions = {};
+    options.method = Method.DELETE;
+    options.headers = headers;
+    return await request<T>(this.host + path, options);
+  }
 }

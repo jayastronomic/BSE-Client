@@ -5,6 +5,7 @@ import NavigationLinks from "./NavigationLinks";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import { useContext } from "react";
+import AuthEndPoint from "../network/endpoints/AuthEndpoint";
 
 const variants = {
   open: {
@@ -16,7 +17,7 @@ const variants = {
 };
 
 const SideNav = () => {
-  const { authUser } = useContext(AuthContext);
+  const { authUser, setAuthUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { isOpen, toggleOpen } = useNavigationState();
 
@@ -25,7 +26,17 @@ const SideNav = () => {
     toggleOpen();
   };
 
-  const logOff = () => {};
+  const logOff = () => {
+    AuthEndPoint.logout().then((response) => {
+      const { data, status } = response;
+      if (status === "success") {
+        localStorage.removeItem("token");
+        setAuthUser(data);
+        navigate("/");
+        toggleOpen();
+      }
+    });
+  };
   return (
     <motion.nav
       animate={isOpen ? "open" : "closed"}

@@ -4,15 +4,26 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
-import React, { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../App";
+import { ThreeDots } from "react-loader-spinner";
+import Appointment from "../interfaces/Appointment";
+import AppointmentEndpoint from "../network/endpoints/AppointmentEndpoint";
+import { useNavigate } from "react-router-dom";
 
-const CheckoutForm = () => {
+type CheckoutFormProps = {
+  appointment: Appointment;
+};
+
+const CheckoutForm = ({ appointment }: CheckoutFormProps) => {
+  const navigate = useNavigate();
+  const { authUser } = useContext(AuthContext);
+  const { email } = authUser!;
   const stripe = useStripe();
   const elements = useElements();
 
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
     if (!stripe) {
@@ -44,24 +55,22 @@ const CheckoutForm = () => {
       }
     });
   }, [stripe]);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
     setIsLoading(true);
-
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
         receipt_email: email,
       },
+      redirect: "if_required",
     });
 
     // This point will only be reached if there is an immediate error when
@@ -69,7 +78,17 @@ const CheckoutForm = () => {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
+    if (!error) {
+      AppointmentEndpoint.create(appointment).then((response) => {
+        const { data, status } = response;
+        if (status === "success") {
+          navigate("/");
+        }
+      });
+    } else if (
+      error.type === "card_error" ||
+      error.type === "validation_error"
+    ) {
       setMessage(error.message!);
     } else {
       setMessage("An unexpected error occurred.");
@@ -83,27 +102,26 @@ const CheckoutForm = () => {
   };
   return (
     <div>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter email address"
-        />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
-          <span id="button-text">
+      <form onSubmit={handleSubmit}>
+        <PaymentElement options={paymentElementOptions} />
+        <button
+          className="flex justify-center bg-black w-full rounded text-white text-sm py-8 mt-4 hover:bg-opacity-90 transition"
+          disabled={isLoading || !stripe || !elements}
+        >
+          <span>
             {isLoading ? (
-              <div className="spinner" id="spinner">
-                loading
-              </div>
+              <ThreeDots height={20} width={60} color="white" />
             ) : (
-              "Pay now"
+              "BOOK APPOINTMENT"
             )}
           </span>
         </button>
         {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
+        {message && (
+          <div className="flex justify-center text-red-600 text-sm mt-2">
+            {message}
+          </div>
+        )}
       </form>
     </div>
   );

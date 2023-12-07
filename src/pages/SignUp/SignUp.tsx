@@ -7,26 +7,25 @@ import UserDetails from "./UserDetails";
 import Profile from "../../interfaces/Profile";
 import ProfileDetails from "./ProfileDetails";
 import { ThreeDots } from "react-loader-spinner";
-import ProfileEndPoint from "../../network/endpoints/ProfileEndpoint";
 import { motion } from "framer-motion";
 
 const SignUp = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
-  const { setToken } = useContext(AuthContext);
+  const { setToken, setAuthUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState<AuthUser>({
     email: "",
     password: "",
     passwordConfirmation: "",
-  });
-  const [newProfile, setProfile] = useState<Profile>({
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    phoneNumber: "",
+    profile: {
+      firstName: "",
+      lastName: "",
+      birthDate: "",
+      phoneNumber: "",
+    },
   });
   const [disabled, setDisabled] = useState<boolean>(true);
-  const [isAllInputsDirty, setIsAllInputsDirty] = useState<boolean>(false);
+
   const [emailError, setEmailError] = useState({
     errorMessage: "",
     isError: false,
@@ -40,21 +39,20 @@ const SignUp = () => {
       setDisabled={setDisabled}
       emailError={emailError}
     />,
-    <ProfileDetails {...newProfile} setProfile={setProfile} />,
+    <ProfileDetails {...newUser.profile} setNewUser={setNewUser} />,
   ];
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     AuthEndPoint.create(newUser).then((res) => {
-      const { status, data: token } = res;
-      if (status === "success") {
-        localStorage.setItem("token", token as string);
-        setToken(token as string);
-        console.log(newProfile);
-        ProfileEndPoint.create(newProfile).then((response) => {
-          const { status } = response;
-          if (status === "success") navigate("/");
-        });
+      const { status, data, token } = res;
+      if (status === "success" && token && data) {
+        localStorage.setItem("token", token);
+        setToken(token);
+        setAuthUser(data);
+        navigate("/");
+      }
+      if (status === "error") {
       }
     });
   };
@@ -78,8 +76,6 @@ const SignUp = () => {
 
   return (
     <div className={"flex flex-col h-full pt-12 px-20 items-center bg-white"}>
-      {/* <div className="spartan text-3xl text-amber-800">brownSugar</div>
-      <div className="neotoric text-xl text-amber-800">Esthetics </div> */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

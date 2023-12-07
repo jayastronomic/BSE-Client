@@ -15,7 +15,7 @@ const ServicesContainer = ({
   if (location.pathname === "/book")
     return (
       <div className="flex flex-col px-20 py-10 shadow-lg">
-        <div className="shadow-lg">
+        <div className="flex flex-col space-y-4">
           {services.map((service) => {
             return <ServiceSelectionCard key={service.name} {...service} />;
           })}

@@ -2,17 +2,20 @@ import { Dispatch, SetStateAction, useState } from "react";
 import * as dateFns from "date-fns";
 import * as FaIcon from "react-icons/fa";
 import { DateTime } from "../pages/Schedule/Schedule";
+import Appointment from "../interfaces/Appointment";
 
 type BookingCalenderProps = {
   setDateTime: Dispatch<SetStateAction<DateTime>>;
   setHideBookingCalender: Dispatch<SetStateAction<boolean>>;
   setHideForm: Dispatch<SetStateAction<boolean>>;
+  setAppointment: Dispatch<SetStateAction<Appointment>>;
 };
 
 const BookingCalender = ({
   setDateTime,
   setHideBookingCalender,
   setHideForm,
+  setAppointment,
 }: BookingCalenderProps) => {
   const [currentDate, setcurrentDate] = useState<Date>(new Date());
   const totalDates = dateFns.eachDayOfInterval({
@@ -51,7 +54,7 @@ const BookingCalender = ({
   };
 
   const selectTime = (time: string, date: Date) => {
-    setDateTime((prev) => {
+    setDateTime(() => {
       return {
         time,
         date,
@@ -59,6 +62,13 @@ const BookingCalender = ({
     });
     setHideBookingCalender((prev) => !prev);
     setHideForm((prev) => !prev);
+    setAppointment((prev) => {
+      return {
+        ...prev,
+        time,
+        date: dateFns.format(date, "yyyy-MM-dd"),
+      };
+    });
   };
 
   return (
@@ -98,6 +108,7 @@ const BookingCalender = ({
             {timeSlots.map((time) => {
               return (
                 <button
+                  key={time}
                   onClick={() => selectTime(time, totalDates[dateSequence[0]])}
                   className="shadow p-4"
                 >
@@ -110,6 +121,7 @@ const BookingCalender = ({
             {timeSlots.map((time) => {
               return (
                 <button
+                  key={time}
                   onClick={() => selectTime(time, totalDates[dateSequence[1]])}
                   className="shadow p-4"
                 >
@@ -122,6 +134,7 @@ const BookingCalender = ({
             {timeSlots.map((time) => {
               return (
                 <button
+                  key={time}
                   onClick={() => selectTime(time, totalDates[dateSequence[2]])}
                   className="shadow p-4"
                 >

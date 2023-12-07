@@ -12,12 +12,24 @@ export default class AuthEndPoint {
     });
   }
 
+  public static login(payload: AuthUser) {
+    return AuthEndPoint.http.post("/api/v1/auth/login", payload, {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
+  }
+
   public static loggedIn() {
-    return AuthEndPoint.http.get("/api/v1/auth/loggedIn", {
+    return AuthEndPoint.http.get<AuthUser>("/api/v1/auth/loggedIn", {
       Authorization: `Bearer: ${localStorage.getItem("token")}`,
     });
   }
 
+  public static logout() {
+    return AuthEndPoint.http.delete<null>("/api/v1/auth/logout", {
+      Authorization: `Bearer: ${localStorage.getItem("token")}`,
+    });
+  }
   public static emailAlreadyExists(email: { email: string }) {
     return AuthEndPoint.http.post("/api/v1/auth/emailTaken", email, {
       "Content-Type": "application/json",

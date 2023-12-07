@@ -21,7 +21,7 @@ const ServiceSelectionCard = ({
   const location = useLocation();
   const { time, date } = dateTime || {};
   return (
-    <div className="flex flex-col border-b border-amber-900 p-4 border-opacity-10">
+    <div className="flex flex-col border border-amber-900 p-4 border-opacity-10 shadow">
       <div className="flex items-center justify-between mb-10">
         <div className="flex flex-col">
           <div className="text-sm">{name}</div>
@@ -35,7 +35,7 @@ const ServiceSelectionCard = ({
           {location.pathname === "/book" ? (
             <Link
               to={`/book/${id}`}
-              className="bg-amber-900 text-white text-[0.6rem] p-2 rounded shadow-lg hover:bg-opacity-90 transition"
+              className="bg-black text-white text-[0.6rem] p-2 rounded shadow-lg hover:bg-opacity-90 transition"
             >
               BOOK
             </Link>

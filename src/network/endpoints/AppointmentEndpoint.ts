@@ -12,4 +12,14 @@ export default class AppointmentEndpoint {
       Authorization: `Bearer: ${localStorage.getItem("token")}`,
     });
   }
+
+  public static authUserAppointments() {
+    return AppointmentEndpoint.http.get<Appointment[]>(
+      "/api/v1/user/appointments",
+      {
+        Accept: "application/json",
+        Authorization: `Bearer: ${localStorage.getItem("token")}`,
+      }
+    );
+  }
 }

@@ -14,7 +14,7 @@ import Services from "./pages/Services/Services";
 import Book from "./pages/Book/Book";
 import Schedule from "./pages/Schedule/Schedule";
 import Profile from "./pages/Profile/Profile";
-import Checkout from "./pages/Checkout/Checkout";
+import Appointments from "./pages/Appointments/Appointments";
 
 const Root = () => {
   return (
@@ -33,6 +33,7 @@ const App = () => {
     </>
   );
 };
+
 export const router = CBR(
   CRFE(
     <Route path={"/"} element={<Root />}>
@@ -43,8 +44,9 @@ export const router = CBR(
         <Route path={"/services"} element={<Services />} />
         <Route path={"/book"} element={<Book />} />
         <Route path={"/book/:id"} element={<Schedule />} />
-        <Route path={"/profile/:id"} element={<Profile />} />
-        <Route path={"/test"} element={<Checkout />} />
+        <Route path={"/profile/:id"} element={<Profile />}>
+          <Route path={"appointments"} element={<Appointments />} />
+        </Route>
       </Route>
     </Route>
   )

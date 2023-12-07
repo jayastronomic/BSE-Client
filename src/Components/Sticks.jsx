@@ -81,7 +81,7 @@ function Stick({ index, z, speed }) {
       <mesh
         geometry={nodes.PopsicleStick6_PopsicleStick6_0.geometry}
         material={materials.PopsicleStick6}
-        material-emissive="#964B00c"
+        material-emissive="#964B00"
       />
     </group>
   );

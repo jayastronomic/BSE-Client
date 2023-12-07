@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from "react";
 import legImage from "../../images/image.jpg";
 import ServicesContainer from "../../containers/ServicesContainer";
-import Service from "../../interfaces/Service";
 import ServiceEndpoint from "../../network/endpoints/ServiceEndpoint";
 import BookAppointmentBanner from "../../components/BookAppointmentBanner";
+import useFetch from "../../hooks/useFetch";
 
 const Services = (): JSX.Element => {
-  const [services, setServices] = useState<Service[]>([]);
-
-  useEffect(() => {
-    ServiceEndpoint.index().then((response) => {
-      const { data: services, status } = response;
-      if (status === "success") {
-        setServices(services as Service[]);
-      }
-    });
-  }, []);
+  const { data } = useFetch({
+    queryFn: ServiceEndpoint.index,
+  });
 
   return (
     <div className="absolute flex flex-col w-full overflow-visible">
@@ -25,7 +17,7 @@ const Services = (): JSX.Element => {
           Our Services
         </div>
       </div>
-      <ServicesContainer services={services} />
+      <ServicesContainer services={data || []} />
       <BookAppointmentBanner />
     </div>
   );
